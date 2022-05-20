@@ -38,7 +38,6 @@ $request_method = $_SERVER["REQUEST_METHOD"];
       $result = mysqli_query($con,$sql); 
       $myArray = array();
       if (mysqli_num_rows($result) > 0) {
-      // output data of each row
           while($row = $result->fetch_assoc()) {
               $myArray[] = array_map("utf8_encode", $row);
           }
@@ -52,16 +51,20 @@ $request_method = $_SERVER["REQUEST_METHOD"];
 
   function addArticle()
   {
-    global $conn;
+    global $con;
     $title = $_POST["title"];
-    $descriptions = $_POST["description"];
+    $descriptions = $_POST["descriptions"];
     $published = $_POST["published"];
 
     $query="INSERT INTO article(descriptions,published,title) VALUES('".$descriptions."', '".$published."', '".$title."')";
 
-    if(mysqli_query($conn, $query))
+    if(mysqli_query($con, $query))
     {
-        print json_encode('ajout effectué');
+      print json_encode('ajout effectué');
+    }
+    else
+    {
+      mysqli_error($con);
     }
   }
 ?>
